@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rapidfort-task
+  labels:
+    app: rapidfort-task
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rapidfort-task
+  template:
+    metadata:
+      labels:
+        app: rapidfort-task
+    spec:
+      containers:
+        - name: rapidfort-task
+          image: nandan2024/rapidfort-docker
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rapidfort-task-service
+  labels:
+    app: rapidfort-task
+spec:
+  selector:
+    app: rapidfort-task
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer

@@ -8,15 +8,21 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myapp.db'
 db = SQLAlchemy(app)
 
+
+# Define the model for uploaded files
 class UploadedFile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255))
     size = db.Column(db.Integer)
     filepath = db.Column(db.String(255))
 
+
+# Create the database tables if they don't exist
 with app.app_context():
     db.create_all()
 
+
+# Handle file upload
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -43,16 +49,22 @@ def upload_file():
 
     return render_template('uploads.html', data = payload)
 
+
+# Display uploaded files
 @app.route('/files', methods=['GET'])
 def get_uploaded_files():
     files = UploadedFile.query.all()
     file_list = [{'filename': file.filename, 'size': file.size, 'filepath': file.filepath} for file in files]
     return render_template('files.html', data = file_list)
 
+
+# Default route
 @app.route('/', methods=['GET'])
 def hello_world():
     return render_template('index.html')
 
+
+# Get port from environment variable or use default 5000
 port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":
     app.run(debug=True, port=port)
