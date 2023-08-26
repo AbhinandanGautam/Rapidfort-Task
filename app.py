@@ -34,7 +34,7 @@ def upload_file():
         return jsonify({'error': 'No selected file'}), 400
     
     # Save the uploaded file to the uploads directory
-    file_path = os.path.join('C:\\Users\\Abhinandan Gautam\\Desktop\\Rapidfort\\uploads', file.filename)
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'Rapidfort\\uploads', file.filename)
     file.save(file_path)
     
     # Store file information and reference in the database
@@ -67,6 +67,4 @@ def hello_world():
 # Get port from environment variable or use default 5000
 port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":
-    script_directory = os.path.dirname(os.path.abspath(__file__))
-    print("Current script directory:", script_directory)
     app.run(debug=True, port=port)
