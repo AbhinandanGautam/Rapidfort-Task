@@ -67,4 +67,6 @@ def hello_world():
 # Get port from environment variable or use default 5000
 port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    print("Current script directory:", script_directory)
     app.run(debug=True, port=port)
