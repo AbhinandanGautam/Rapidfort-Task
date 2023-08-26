@@ -34,7 +34,7 @@ def upload_file():
         return jsonify({'error': 'No selected file'}), 400
     
     # Save the uploaded file to the uploads directory
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'Rapidfort\\uploads', file.filename)
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'uploads', file.filename)
     file.save(file_path)
     
     # Store file information and reference in the database
